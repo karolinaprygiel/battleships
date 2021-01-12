@@ -9,8 +9,26 @@ import java.util.Scanner;
 
 public class Client {
 
+    private static Client instance;
+    int port;
+    Path mapPath;
 
-    public static void play(int port, Path mapPath)  {
+    private Client(int port, Path mapPath)  {
+
+        this.port = port;
+        this.mapPath = mapPath;
+
+    }
+
+    public static Client getInstance(int port, Path mapPath)  {
+        if (instance == null) {
+            instance = new Client(port, mapPath);
+        }
+        return instance;
+    }
+
+
+    public void play()  {
         try {
             InetAddress HOST;
             Scanner in = new Scanner(System.in);
