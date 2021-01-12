@@ -26,7 +26,18 @@ public class Client {
             }
             Socket s = new Socket(HOST, port);
             System.out.println("Connected, make move");
-            Game game = new Game(s, GameState.STARTGAME, mapPath);
+            Game game = Game.builder()
+                    .buildIn(s)
+                    .buildOut(s)
+                    .buildPlayer("human")
+                    .buildMyMap(mapPath)
+                    .buildEnemyMap()
+                    .buildState(GameState.STARTGAME)
+                    .buildMessage()
+                    .buildLastMove()
+                    .buildEnemyLastMessage()
+                    .buildInvalidCounter()
+                    .buid();
             game.playGame();
 
         } catch (IOException e) {

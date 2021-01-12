@@ -11,26 +11,23 @@ import java.util.Arrays;
 
 
 public class Game {
-    private final BufferedWriter out;
-    private final BufferedReader in;
-    private final Player player;
-    private final Map myMap;
-    private final Map enemyMap;
+    private BufferedWriter out;
+    private BufferedReader in;
+    private Player player;
+    private Map myMap;
+    private Map enemyMap;
     private GameState state;
     private String message = "";
     private String lastMove ="";
-    private String enemyLastMove = "";
+    private String enemyLastMessage = "";
     private int invalidCounter = 0;
 
 
-    public Game(Socket socket, GameState state, Path mapPath) throws IOException {
-        out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        this.state = state;
-        player = new Computer(); //ruchy wykonywane automatycznie
-        //player = new Human(); //ruchy wykonywane "recznie" przez gracza
-        myMap = Map.loadMapFromFile(mapPath);
-        enemyMap = Map.getMapOfUnnknowns();
+    private Game(){
+
+    }
+    public static GameBuilder builder() {
+        return new GameBuilder();
     }
 
     public void playGame() {
@@ -82,11 +79,11 @@ public class Game {
         System.out.println(enemyMessage);
 
 
-        if (enemyLastMove.equals(enemyMessage)) { //enemy resend his meessage if my message was invalid
+        if (enemyLastMessage.equals(enemyMessage)) { //enemy resend his meessage if my message was invalid
             state = GameState.MYTURN;
             return;
         }
-        enemyLastMove = enemyMessage;
+        enemyLastMessage = enemyMessage;
         String command = getCommand(enemyMessage);
 
         if (checkValid(enemyMessage)) {
@@ -117,7 +114,7 @@ public class Game {
     }
 
     private void processEnemyTurn() {
-        String enemyMessage = enemyLastMove;
+        String enemyMessage = enemyLastMessage;
         String field = getField(enemyMessage);
 
         message = myMap.processHit(field);
@@ -189,4 +186,82 @@ public class Game {
             e.printStackTrace();
         }
     }
+
+    public static final class GameBuilder{
+        private BufferedWriter out;
+        private BufferedReader in;
+        private Player player;
+        private Map myMap;
+        private Map enemyMap;
+        private GameState state;
+        private String message;
+        private String lastMove;
+        private String enemyLastMessage;
+        private int invalidCounter;
+
+        public GameBuilder buildOut(Socket socket){
+            try {
+                this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return this;
+        }
+        public GameBuilder buildIn(Socket socket){
+            try {
+                this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return this;
+        }
+        public GameBuilder buildPlayer(String s){
+            this.player = new Computer();
+            return this;
+        }
+        public GameBuilder buildMyMap(Path path){
+            this.myMap = Map.loadMapFromFile(path);
+            return this;
+        }
+        public GameBuilder buildEnemyMap(){
+            this.enemyMap = Map.getMapOfUnnknowns();
+            return this;
+        }
+        public GameBuilder buildState(GameState state){
+            this.state = state;
+        return this;
+        }
+        public GameBuilder buildMessage(){
+            this.message = "";
+            return this; }
+        public GameBuilder buildLastMove(){
+            this.lastMove = "";
+            return this; }
+        public GameBuilder buildEnemyLastMessage(){
+            this.enemyLastMessage = "";
+            return this; }
+        public GameBuilder buildInvalidCounter(){
+            this.invalidCounter = 0;
+            return this; }
+
+        public Game buid(){
+            Game game = new Game();
+            game.out = this.out;
+            game.in = this.in;
+            game.player = this.player;
+            game.myMap = this.myMap;
+            game.enemyMap = this.enemyMap;
+            game.state = this.state;
+            game.invalidCounter = this.invalidCounter;
+            game.message = this.message;
+            game.lastMove = this.lastMove;
+            game.enemyLastMessage = this.enemyLastMessage;
+
+            return game;
+        }
+
+
+    }
+
+
 }

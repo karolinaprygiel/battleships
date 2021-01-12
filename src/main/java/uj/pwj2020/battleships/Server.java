@@ -13,7 +13,18 @@ public class Server {
             System.out.println("Server started at: " + addr + " on port " + port);
             Socket socket = serverSocket.accept();
             System.out.println("Got request from " + socket.getRemoteSocketAddress() + ", starting session ");
-            Game game = new Game(socket, GameState.GETRESPONSE, mapPath);
+            Game game = Game.builder()
+                    .buildIn(socket)
+                    .buildOut(socket)
+                    .buildPlayer("human")
+                    .buildMyMap(mapPath)
+                    .buildEnemyMap()
+                    .buildState(GameState.GETRESPONSE)
+                    .buildMessage()
+                    .buildLastMove()
+                    .buildEnemyLastMessage()
+                    .buildInvalidCounter()
+                    .buid();
             game.playGame();
 
         } catch (IOException ex) {
