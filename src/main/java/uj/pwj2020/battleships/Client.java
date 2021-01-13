@@ -1,10 +1,11 @@
 package uj.pwj2020.battleships;
 
+import uj.pwj2020.battleships.states.StartGame;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.nio.file.Path;
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Client {
@@ -47,15 +48,12 @@ public class Client {
             Game game = Game.builder()
                     .buildIn(s)
                     .buildOut(s)
-                    .buildPlayer("human")
+                    .buildPlayer("computer")
                     .buildMyMap(mapPath)
                     .buildEnemyMap()
-                    .buildState(GameState.STARTGAME)
-                    .buildMessage()
-                    .buildLastMove()
-                    .buildEnemyLastMessage()
-                    .buildInvalidCounter()
+                    .buildState()
                     .buid();
+            game.setState(new StartGame(game));
             game.playGame();
 
         } catch (IOException e) {
