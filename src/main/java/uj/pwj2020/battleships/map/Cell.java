@@ -41,4 +41,11 @@ public class Cell {
     public int getColumn() {
         return column;
     }
+
+    public static String cordsToFieldName(int row, int column){
+        char c = (char) (row + 'A');
+        int r = column + 1;
+
+        return c + String.valueOf(r);
+    }
 }

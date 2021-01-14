@@ -2,7 +2,7 @@ package uj.pwj2020.battleships.generator;
 
 public interface BattleshipGenerator {
 
-    String generateMap();
+    String[] generateMap();
 
 
     static BattleshipGenerator getInstance() {

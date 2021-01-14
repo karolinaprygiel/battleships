@@ -12,18 +12,16 @@ public class Client {
 
     private static Client instance;
     int port;
-    Path mapPath;
 
-    private Client(int port, Path mapPath)  {
+    private Client(int port)  {
 
         this.port = port;
-        this.mapPath = mapPath;
 
     }
 
-    public static Client getInstance(int port, Path mapPath)  {
+    public static Client getInstance(int port)  {
         if (instance == null) {
-            instance = new Client(port, mapPath);
+            instance = new Client(port);
         }
         return instance;
     }
@@ -39,17 +37,26 @@ public class Client {
                 System.out.println("Podaj adres serwera");
                 String address = in.next();
                 HOST = InetAddress.getByName(address);
+            }else if(response.equalsIgnoreCase("M")) {
+                HOST = InetAddress.getByName("192.168.137.236");
             }else{
-
                 HOST= Util.findAddress();
             }
+
+            System.out.println("Wybierz tryb");
+            System.out.println("1 - wykonujesz ruchy sam");
+            System.out.println("2 - wykonuje je za Ciebie bot");
+            int number = in.nextInt();
+
+
+
             Socket s = new Socket(HOST, port);
             System.out.println("Connected, make move");
             Game game = Game.builder()
                     .buildIn(s)
                     .buildOut(s)
-                    .buildPlayer("computer")
-                    .buildMyMap(mapPath)
+                    .buildPlayer(number)
+                    .buildMyMap()
                     .buildEnemyMap()
                     .buildState()
                     .buid();

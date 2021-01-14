@@ -13,7 +13,7 @@ public class StartGame implements GameState {
 
     @Override
     public void invokeAction() {
-        String field = game.getPlayer().hitField();
+        String field = game.getPlayer().hitField(game.getEnemyMap());
         String message = "start";
         send(message + ";" +field);
         game.setState(new GetResponse(game, field));

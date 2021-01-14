@@ -4,7 +4,7 @@ import java.util.*;
 
 public class RandomBattleshipGenerator implements BattleshipGenerator {
     @Override
-    public String generateMap() {
+    public String[] generateMap() {
 
         StringBuilder[] Matrix = initializeMatrix();
 
@@ -35,12 +35,14 @@ public class RandomBattleshipGenerator implements BattleshipGenerator {
         return matrix;
     }
 
-    private String prepareResultString(StringBuilder[] Matrix) {
-        StringBuilder result = new StringBuilder();
-        for (StringBuilder matrix : Matrix) {
-            result.append(matrix);
+    private String[] prepareResultString(StringBuilder[] Matrix) {
+        String[] result = new String[Matrix.length];
+
+        for (int i = 0; i < Matrix.length; i++){
+
+            result[i] = Matrix[i].toString().replace('?', '.');
         }
-        return result.toString().replace('?', '.');
+        return result;
     }
 
     private void putMastedShip(StringBuilder[] Matrix, int numOfMasts) {

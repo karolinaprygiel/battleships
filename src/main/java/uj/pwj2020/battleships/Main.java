@@ -10,11 +10,12 @@ public class Main {
         int port = parser.getPort();
         Path mapPath = parser.getMapPath();
 
+
         if (mode.equals("client")) {
-            Client client = Client.getInstance(port, mapPath);
+            Client client = Client.getInstance(port);
             client.play();
         } else if (mode.equals("server")) {
-            Server server = Server.getInstance(port, mapPath);
+            Server server = Server.getInstance(port);
             server.play();
 
         }

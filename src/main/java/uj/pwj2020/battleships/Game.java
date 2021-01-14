@@ -1,6 +1,8 @@
 package uj.pwj2020.battleships;
 
+import uj.pwj2020.battleships.map.EnemyMap;
 import uj.pwj2020.battleships.map.Map;
+import uj.pwj2020.battleships.map.PlayerMap;
 import uj.pwj2020.battleships.players.Player;
 import uj.pwj2020.battleships.players.PlayerFactory;
 import uj.pwj2020.battleships.states.EmptyState;
@@ -8,16 +10,15 @@ import uj.pwj2020.battleships.states.GameState;
 
 import java.io.*;
 import java.net.Socket;
-import java.nio.file.Path;
-import java.util.Arrays;
+
 
 
 public class Game {
     private BufferedWriter out;
     private BufferedReader in;
     private Player player;
-    private Map myMap;
-    private Map enemyMap;
+    private PlayerMap myMap;
+    private EnemyMap enemyMap;
     private GameState state;
     boolean isGameOver = false;
 
@@ -33,9 +34,6 @@ public class Game {
 
         System.out.println("My map:");
         myMap.showMap();
-
-
-
         while (!isGameOver) {
             state.invokeAction();
 
@@ -65,11 +63,11 @@ public class Game {
         return player;
     }
 
-    public Map getMyMap() {
+    public PlayerMap getMyMap() {
         return myMap;
     }
 
-    public Map getEnemyMap() {
+    public EnemyMap getEnemyMap() {
         return enemyMap;
     }
 
@@ -78,13 +76,10 @@ public class Game {
         private BufferedWriter out;
         private BufferedReader in;
         private Player player;
-        private Map myMap;
-        private Map enemyMap;
+        private PlayerMap myMap;
+        private EnemyMap enemyMap;
         private GameState state;
-        private String message;
-        private String lastMove;
-        private String enemyLastMessage;
-        private int invalidCounter;
+
 
         public GameBuilder buildOut(Socket socket){
             try {
@@ -102,17 +97,24 @@ public class Game {
             }
             return this;
         }
-        public GameBuilder buildPlayer(String s){
+        public GameBuilder buildPlayer(int number){
+            if (number ==1){
+                this.player = PlayerFactory.getPlyer("human");
+            }else{
+                this.player = PlayerFactory.getPlyer("computer");
+            }
 
-            this.player = PlayerFactory.getPlyer(s);
+
             return this;
         }
-        public GameBuilder buildMyMap(Path path){
-            this.myMap = Map.loadMapFromFile(path);
+        public GameBuilder buildMyMap(){
+            this.myMap = new PlayerMap();
+            myMap.loadMap();
             return this;
         }
         public GameBuilder buildEnemyMap(){
-            this.enemyMap = Map.getMapOfUnnknowns();
+            this.enemyMap = new EnemyMap();
+            enemyMap.loadMap();
             return this;
         }
         public GameBuilder buildState(){

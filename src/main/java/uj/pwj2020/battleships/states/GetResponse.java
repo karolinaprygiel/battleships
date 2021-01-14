@@ -23,7 +23,7 @@ public class GetResponse implements GameState{
 
     @Override
     public void invokeAction() {
-        String enemyMessage = null;
+        String enemyMessage = "";
         try {
             enemyMessage = game.getIn().readLine();
         } catch (IOException e) {

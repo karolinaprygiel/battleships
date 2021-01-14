@@ -17,7 +17,7 @@ public class LostGame implements GameState{
         game.getEnemyMap().showMap();
         System.out.println();
         System.out.println("My Map:");
-        game.getEnemyMap().showMap();
+        game.getMyMap().showMap();
         game.setGameOver(true);
 
     }

@@ -6,29 +6,35 @@ import uj.pwj2020.battleships.states.GetResponse;
 import java.io.IOException;
 import java.net.*;
 import java.nio.file.Path;
+import java.util.Scanner;
 
 public class Server {
     private static Server instance;
     int port;
-    Path mapPath;
 
 
-    private Server(int port, Path mapPath)  {
+    private Server(int port)  {
 
         this.port = port;
-        this.mapPath = mapPath;
 
     }
 
-    public static Server getInstance(int port, Path mapPath)  {
+    public static Server getInstance(int port)  {
         if (instance == null) {
-            instance = new Server(port, mapPath);
+            instance = new Server(port);
         }
         return instance;
     }
 
     public void play() {
         try {
+            Scanner in = new Scanner(System.in);
+            System.out.println("Wybierz tryb");
+            System.out.println("1 - wykonujesz ruchy sam");
+            System.out.println("2 - wykonuje je za Ciebie bot");
+            int number = in.nextInt();
+
+
             InetAddress addr = Util.findAddress();
             ServerSocket serverSocket = new ServerSocket(port, 10000, addr);
             System.out.println("Server started at: " + addr + " on port " + port);
@@ -37,8 +43,8 @@ public class Server {
             Game game = Game.builder()
                     .buildIn(socket)
                     .buildOut(socket)
-                    .buildPlayer("computer")
-                    .buildMyMap(mapPath)
+                    .buildPlayer(number)
+                    .buildMyMap()
                     .buildEnemyMap()
                     .buildState()
                     .buid();
