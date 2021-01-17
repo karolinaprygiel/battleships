@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Bot implements Player {
 
-    BotMode mode = new HardMode();
+    BotMode mode;
 
     @Override
     public String hitField(Map map) {

@@ -46,7 +46,7 @@ public class EnemyTurn implements GameState{
         }
 
         if (message.equals("ostatni zatopiony")){
-            send(message);
+            game.send(message);
             game.setState(new LostGame(game));
         }else {
             game.setState(new MyTurn(game, message));
@@ -54,15 +54,5 @@ public class EnemyTurn implements GameState{
 
     }
 
-    private void send(String mess) {
-        try{
-            System.out.println("sending message to opponent: " + mess );
-            var out = game.getOut();
-            out.write(mess);
-            out.newLine();
-            out.flush();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+
 }

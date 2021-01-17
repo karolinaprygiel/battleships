@@ -1,7 +1,11 @@
 package uj.pwj2020.battleships;
 
 
+import uj.pwj2020.battleships.InputReceiver.CommandLineReceiver;
+import uj.pwj2020.battleships.InputReceiver.InputReceiver;
 import uj.pwj2020.battleships.states.GetResponse;
+import view.CommandLineView;
+import view.GameView;
 
 import java.io.IOException;
 import java.net.*;
@@ -28,25 +32,24 @@ public class Server {
 
     public void play() {
         try {
-            Scanner in = new Scanner(System.in);
-            System.out.println("Wybierz tryb");
-            System.out.println("1 - wykonujesz ruchy sam");
-            System.out.println("2 - wykonuje je za Ciebie bot");
-            int number = in.nextInt();
-
 
             InetAddress addr = Util.findAddress();
+            GameView view = new CommandLineView();
+            InputReceiver receiver = new CommandLineReceiver();
             ServerSocket serverSocket = new ServerSocket(port, 10000, addr);
-            System.out.println("Server started at: " + addr + " on port " + port);
+            view.showMessage("Server started at: " + addr + " on port " + port);
+            var gameParameters = Util.getGameParameters(view, receiver);
             Socket socket = serverSocket.accept();
-            System.out.println("Got request from " + socket.getRemoteSocketAddress() + ", starting session ");
+            view.showMessage("Got request from " + socket.getRemoteSocketAddress() + ", starting session ");
             Game game = Game.builder()
                     .buildIn(socket)
                     .buildOut(socket)
-                    .buildPlayer(number)
+                    .buildPlayer(gameParameters.get("playerType"), gameParameters.get("mode"))
                     .buildMyMap()
                     .buildEnemyMap()
                     .buildState()
+                    .buildView(view)
+                    .builReceiver(receiver)
                     .buid();
             game.setState(new GetResponse(game));
             game.playGame();

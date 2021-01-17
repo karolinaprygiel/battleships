@@ -30,7 +30,7 @@ public class GetResponse implements GameState{
             e.printStackTrace();
         }
 
-        System.out.println(enemyMessage);
+        game.getView().showMessage("received response: " + enemyMessage);
 
         String command = getCommand(enemyMessage);
         String field = getField(enemyMessage);
@@ -49,8 +49,7 @@ public class GetResponse implements GameState{
             }
 
         } else {
-                //System.out.println("błąd komunikacji");
-                send("błąd komunikacji");
+                game.send("błąd komunikacji");
                 game.setState(new EndGame(game));
 
         }
@@ -88,15 +87,5 @@ public class GetResponse implements GameState{
 
     }
 
-    private void send(String mess) {
-        try{
-            System.out.println("sending message to opponent: " + mess );
-            var out = game.getOut();
-            out.write(mess);
-            out.newLine();
-            out.flush();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+
 }

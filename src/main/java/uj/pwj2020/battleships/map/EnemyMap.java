@@ -30,20 +30,15 @@ public class EnemyMap extends Map{
         int row = field.charAt(0) - 'A';
         int column = Integer.parseInt(field.substring(1)) - 1;
 
-        if (command.equals("pudło")) {
-            setCellType(row,column, CellType.WATER);
-
-        } else if (command.equals("trafiony")){
-            setCellType(row,column,CellType.SHIP);
-
-
-        } else if(command.equals("trafiony zatopiony") || command.equals("ostatni zatopiony")) {
-            setCellType(row,column,CellType.SHIP);
-
-            Ship ship = new Ship();
-            buildShip(row,column,ship);
-            surroundWithWater(ship);
-
+        switch (command) {
+            case "pudło" -> setCellType(row, column, CellType.WATER);
+            case "trafiony" -> setCellType(row, column, CellType.SHIP);
+            case "trafiony zatopiony", "ostatni zatopiony" -> {
+                setCellType(row, column, CellType.SHIP);
+                Ship ship = new Ship();
+                buildShip(row, column, ship);
+                surroundWithWater(ship);
+            }
         }
 
     }
@@ -81,16 +76,6 @@ public class EnemyMap extends Map{
         }
     }
 
-    public void showFullMap() {
-        for (int i = 0; i < 10; i++){
-            for (int j = 0; j < 10; j++){
-                if (map[i][j].getType() == CellType.UNKNOWN){
-                    System.out.print(CellType.WATER.getSymbol() + " ");
-                }else{
-                    System.out.print(map[i][j].getType().getSymbol() + " ");
-                }
-            }
-            System.out.println();
-        }
-    }
+
+
 }

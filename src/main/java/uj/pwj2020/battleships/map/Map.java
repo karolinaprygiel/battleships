@@ -1,10 +1,5 @@
 package uj.pwj2020.battleships.map;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-
 public abstract class Map {
     Cell[][] map;
 
@@ -23,8 +18,6 @@ public abstract class Map {
     }
 
     public abstract MapIterator iterator();
-
-
 
 
      void buildShip(int i, int j, Ship ship) {
@@ -46,15 +39,18 @@ public abstract class Map {
         map[row][column].setType(type);
     }
 
-    public void showMap() {
+
+    @Override
+    public String toString() {
+        StringBuilder stringMap = new StringBuilder();
         for (int i = 0; i < 10; i++){
             for (int j = 0; j < 10; j++){
-                System.out.print(map[i][j].getType().getSymbol() + " ");
+                stringMap.append(map[i][j].getType().getSymbol()).append(" ");
             }
-            System.out.println();
+            stringMap.append(System.getProperty("line.separator"));
         }
+
+        return stringMap.toString();
+
     }
-
-
-
 }

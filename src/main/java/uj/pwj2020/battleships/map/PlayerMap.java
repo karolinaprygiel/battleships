@@ -2,10 +2,6 @@ package uj.pwj2020.battleships.map;
 
 import uj.pwj2020.battleships.generator.BattleshipGenerator;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
 
 public class PlayerMap extends Map {
 

@@ -13,26 +13,16 @@ public class MyTurn implements GameState{
 
     @Override
     public void invokeAction() {
-        System.out.println("My map:");
-        game.getMyMap().showMap();
-        System.out.println("Enemy map:");
-        game.getEnemyMap().showMap();
-        System.out.println("Make move");
+        game.getView().showMessage("Enemy Map:");
+        game.getView().showMap(game.getEnemyMap());
+        game.getView().showMessage("My Map:");
+        game.getView().showMap(game.getMyMap());
+        game.getView().showMessage("Make move:");
         String field = game.getPlayer().hitField(game.getEnemyMap());
-        send(message + ";" + field);
+        game.send(message + ";" + field);
         game.setState(new GetResponse (game, field));
 
     }
 
-    private void send(String mess) {
-        try{
-            System.out.println("sending message to opponent: " + mess );
-            var out = game.getOut();
-            out.write(mess);
-            out.newLine();
-            out.flush();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+
 }

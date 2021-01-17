@@ -1,6 +1,8 @@
 package uj.pwj2020.battleships.states;
 
 import uj.pwj2020.battleships.Game;
+import uj.pwj2020.battleships.map.CellType;
+import uj.pwj2020.battleships.map.MapIterator;
 
 public class WinGame implements GameState{
 
@@ -12,12 +14,17 @@ public class WinGame implements GameState{
     @Override
     public void invokeAction() {
 
-        System.out.println("Wygrana");
-        System.out.println("Enemy Map:");
-        game.getEnemyMap().showFullMap();
-        System.out.println();
-        System.out.println("My Map:");
-        game.getMyMap().showMap();
+        game.getView().showMessage("Wygrana");
+        game.getView().showMessage("Enemy Map:");
+
+        MapIterator iterator = game.getEnemyMap().iterator();
+        while(iterator.hasNext()){
+            iterator.getNext().setType(CellType.WATER);
+
+        }
+        game.getView().showMap(game.getEnemyMap());
+        game.getView().showMessage("My Map:");
+        game.getView().showMap(game.getMyMap());
         game.setGameOver(true);
 
     }

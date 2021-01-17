@@ -1,12 +1,14 @@
 package uj.pwj2020.battleships;
 
+import uj.pwj2020.battleships.InputReceiver.InputReceiver;
 import uj.pwj2020.battleships.map.EnemyMap;
-import uj.pwj2020.battleships.map.Map;
 import uj.pwj2020.battleships.map.PlayerMap;
 import uj.pwj2020.battleships.players.Player;
 import uj.pwj2020.battleships.players.PlayerFactory;
 import uj.pwj2020.battleships.states.EmptyState;
 import uj.pwj2020.battleships.states.GameState;
+import view.CommandLineView;
+import view.GameView;
 
 import java.io.*;
 import java.net.Socket;
@@ -20,6 +22,8 @@ public class Game {
     private PlayerMap myMap;
     private EnemyMap enemyMap;
     private GameState state;
+    private GameView view;
+    private InputReceiver receiver;
     boolean isGameOver = false;
 
 
@@ -31,12 +35,22 @@ public class Game {
     }
 
     public void playGame() {
-
-        System.out.println("My map:");
-        myMap.showMap();
+        view.showMessage("My map");
+        view.showMap(myMap);
         while (!isGameOver) {
             state.invokeAction();
 
+        }
+    }
+
+    public void send(String mess) {
+        try{
+            view.showMessage("sending message to opponent: " + mess );
+            out.write(mess);
+            out.newLine();
+            out.flush();
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -71,6 +85,9 @@ public class Game {
         return enemyMap;
     }
 
+    public GameView getView() {
+        return view;
+    }
 
     public static final class GameBuilder{
         private BufferedWriter out;
@@ -79,7 +96,8 @@ public class Game {
         private PlayerMap myMap;
         private EnemyMap enemyMap;
         private GameState state;
-
+        private GameView view;
+        private InputReceiver receiver;
 
         public GameBuilder buildOut(Socket socket){
             try {
@@ -97,14 +115,8 @@ public class Game {
             }
             return this;
         }
-        public GameBuilder buildPlayer(int number){
-            if (number ==1){
-                this.player = PlayerFactory.getPlyer("human");
-            }else{
-                this.player = PlayerFactory.getPlyer("computer");
-            }
-
-
+        public GameBuilder buildPlayer(String playerType, String mode){
+            this.player = PlayerFactory.getPlyer(playerType, mode);
             return this;
         }
         public GameBuilder buildMyMap(){
@@ -119,7 +131,17 @@ public class Game {
         }
         public GameBuilder buildState(){
             this.state = new EmptyState();
-        return this;
+          return this;
+        }
+
+        public GameBuilder buildView(GameView view){
+            this.view = view;
+            return this;
+        }
+
+        public GameBuilder builReceiver(InputReceiver receiver) {
+            this.receiver = receiver;
+            return this;
         }
 
 
@@ -131,10 +153,12 @@ public class Game {
             game.myMap = this.myMap;
             game.enemyMap = this.enemyMap;
             game.state = this.state;
-
+            game.view = this.view;
+            game.receiver = this.receiver;
 
             return game;
         }
+
 
 
     }

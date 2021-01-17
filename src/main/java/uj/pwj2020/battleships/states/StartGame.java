@@ -15,21 +15,11 @@ public class StartGame implements GameState {
     public void invokeAction() {
         String field = game.getPlayer().hitField(game.getEnemyMap());
         String message = "start";
-        send(message + ";" +field);
+        game.send(message + ";" +field);
         game.setState(new GetResponse(game, field));
 
     }
 
-    private void send(String mess) {
-        try{
-            System.out.println("sending message to opponent: " + mess );
-            var out = game.getOut();
-            out.write(mess);
-            out.newLine();
-            out.flush();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+
 
 }
