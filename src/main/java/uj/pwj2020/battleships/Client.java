@@ -1,14 +1,15 @@
 package uj.pwj2020.battleships;
 
-import uj.pwj2020.battleships.InputReceiver.CommandLineReceiver;
-import uj.pwj2020.battleships.InputReceiver.InputReceiver;
+import uj.pwj2020.battleships.inputReceiver.CommandLineReceiver;
+import uj.pwj2020.battleships.inputReceiver.InputReceiver;
 import uj.pwj2020.battleships.states.StartGame;
-import view.CommandLineView;
-import view.GameView;
+import uj.pwj2020.battleships.view.CommandLineView;
+import uj.pwj2020.battleships.view.GameView;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Client {
 
@@ -32,7 +33,7 @@ public class Client {
     public void play()  {
         try {
             GameView view = new CommandLineView();
-            InputReceiver receiver = new CommandLineReceiver();
+            InputReceiver receiver = new CommandLineReceiver(new Scanner(System.in));
             InetAddress HOST = Util.getHost(view, receiver);
             var gameParameters = Util.getGameParameters(view, receiver);
             Socket s = new Socket(HOST, port);

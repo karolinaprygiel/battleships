@@ -1,7 +1,7 @@
 package uj.pwj2020.battleships;
 
-import uj.pwj2020.battleships.InputReceiver.InputReceiver;
-import view.GameView;
+import uj.pwj2020.battleships.inputReceiver.InputReceiver;
+import uj.pwj2020.battleships.view.GameView;
 
 import java.net.*;
 import java.util.HashMap;

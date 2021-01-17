@@ -1,14 +1,13 @@
 package uj.pwj2020.battleships;
 
-import uj.pwj2020.battleships.InputReceiver.InputReceiver;
+import uj.pwj2020.battleships.inputReceiver.InputReceiver;
 import uj.pwj2020.battleships.map.EnemyMap;
 import uj.pwj2020.battleships.map.PlayerMap;
 import uj.pwj2020.battleships.players.Player;
 import uj.pwj2020.battleships.players.PlayerFactory;
 import uj.pwj2020.battleships.states.EmptyState;
 import uj.pwj2020.battleships.states.GameState;
-import view.CommandLineView;
-import view.GameView;
+import uj.pwj2020.battleships.view.GameView;
 
 import java.io.*;
 import java.net.Socket;

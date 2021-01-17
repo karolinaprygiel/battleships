@@ -14,14 +14,11 @@ public class CLIParser {
     }
 
     private void parseArguments() {
-        if (args.length != 6){
-            throw new IllegalArgumentException("Wrong number of arguments");
-        }
+
         for (int i = 0; i < args.length; i++){
             switch (args[i]) {
                 case "-mode" -> this.mode = args[++i].toLowerCase();
                 case "-port" -> this.port = Integer.parseInt(args[++i]);
-                case "-map" -> this.mapPath = Path.of(args[++i]);
                 default -> throw new IllegalArgumentException("Wrong argument: " + args[i]);
             }
         }
@@ -35,7 +32,4 @@ public class CLIParser {
         return port;
     }
 
-    public Path getMapPath() {
-        return mapPath;
-    }
 }

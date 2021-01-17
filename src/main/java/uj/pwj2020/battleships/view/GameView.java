@@ -1,4 +1,4 @@
-package view;
+package uj.pwj2020.battleships.view;
 
 import uj.pwj2020.battleships.map.Map;
 

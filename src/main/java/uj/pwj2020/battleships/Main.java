@@ -8,7 +8,6 @@ public class Main {
         CLIParser parser = new CLIParser(args);
         String mode = parser.getMode();
         int port = parser.getPort();
-        Path mapPath = parser.getMapPath();
 
 
         if (mode.equals("client")) {
