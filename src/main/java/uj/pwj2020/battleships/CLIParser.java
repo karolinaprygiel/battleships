@@ -6,7 +6,6 @@ public class CLIParser {
     private final String[] args;
     private String mode;
     private int port;
-    private Path mapPath;
 
     public CLIParser(String[] args) {
         this.args = args;

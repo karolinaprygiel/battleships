@@ -4,12 +4,8 @@ import java.util.ArrayList;
 public class Ship {
     private final ArrayList<Cell> cells;
 
-    private boolean isDestroyed;
-
-
     public Ship(){
         cells =  new ArrayList<>();
-        isDestroyed = false;
     }
 
     public boolean isDestroyed() {
@@ -18,7 +14,6 @@ public class Ship {
                 return false;
             }
         }
-        isDestroyed = true;
         return true;
     }
 

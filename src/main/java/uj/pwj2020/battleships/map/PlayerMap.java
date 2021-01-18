@@ -1,13 +1,20 @@
 package uj.pwj2020.battleships.map;
 
+import uj.pwj2020.battleships.Client;
 import uj.pwj2020.battleships.generator.BattleshipGenerator;
 
 
 public class PlayerMap extends Map {
+    private static PlayerMap instance;
 
+    private PlayerMap()  {
 
-    public PlayerMap() {
-
+    }
+    public static PlayerMap getInstance()  {
+        if (instance == null) {
+            instance = new PlayerMap();
+        }
+        return instance;
     }
 
     @Override

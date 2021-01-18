@@ -15,15 +15,16 @@ public class WinGame implements GameState{
     public void invokeAction() {
 
         game.getView().showMessage("Wygrana");
-        game.getView().showMessage("Enemy Map:");
+        game.getView().showMessage("Mapa przeciwnika:");
 
         MapIterator iterator = game.getEnemyMap().iterator();
         while(iterator.hasNext()){
             iterator.getNext().setType(CellType.WATER);
 
         }
+
         game.getView().showMap(game.getEnemyMap());
-        game.getView().showMessage("My Map:");
+        game.getView().showMessage("Moja mapa:");
         game.getView().showMap(game.getMyMap());
         game.setGameOver(true);
 

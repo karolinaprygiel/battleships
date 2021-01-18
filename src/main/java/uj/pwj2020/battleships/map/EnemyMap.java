@@ -2,9 +2,16 @@ package uj.pwj2020.battleships.map;
 
 public class EnemyMap extends Map{
 
+    private static EnemyMap instance;
 
-    public EnemyMap() {
+    private EnemyMap()  {
 
+    }
+    public static EnemyMap getInstance()  {
+        if (instance == null) {
+            instance = new EnemyMap();
+        }
+        return instance;
     }
 
     @Override

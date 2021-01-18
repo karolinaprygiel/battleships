@@ -1,7 +1,7 @@
 package uj.pwj2020.battleships;
 
 
-import uj.pwj2020.battleships.inputReceiver.CommandLineReceiver;
+import uj.pwj2020.battleships.inputReceiver.ScannerLineReceiver;
 import uj.pwj2020.battleships.inputReceiver.InputReceiver;
 import uj.pwj2020.battleships.states.GetResponse;
 import uj.pwj2020.battleships.view.CommandLineView;
@@ -33,8 +33,8 @@ public class Server {
         try {
 
             InetAddress addr = Util.findAddress();
-            GameView view = new CommandLineView();
-            InputReceiver receiver = new CommandLineReceiver(new Scanner(System.in));
+            GameView view = CommandLineView.getInstance();
+            InputReceiver receiver =  ScannerLineReceiver.getInstance(new Scanner(System.in));
             ServerSocket serverSocket = new ServerSocket(port, 10000, addr);
             view.showMessage("Server started at: " + addr + " on port " + port);
             var gameParameters = Util.getGameParameters(view, receiver);
@@ -49,6 +49,7 @@ public class Server {
                     .buildState()
                     .buildView(view)
                     .builReceiver(receiver)
+                    .gameNotOver()
                     .buid();
             game.setState(new GetResponse(game));
             game.playGame();

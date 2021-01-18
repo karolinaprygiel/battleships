@@ -23,7 +23,7 @@ public class Game {
     private GameState state;
     private GameView view;
     private InputReceiver receiver;
-    boolean isGameOver = false;
+    boolean isGameOver;
 
 
     private Game(){
@@ -34,8 +34,9 @@ public class Game {
     }
 
     public void playGame() {
-        view.showMessage("My map");
+        view.showMessage("Moja mapa");
         view.showMap(myMap);
+
         while (!isGameOver) {
             state.invokeAction();
 
@@ -44,7 +45,8 @@ public class Game {
 
     public void send(String mess) {
         try{
-            view.showMessage("sending message to opponent: " + mess );
+            view.showMessage("wysyłanie wiadomości do użytkownika: " + mess );
+            view.showMessage("");
             out.write(mess);
             out.newLine();
             out.flush();
@@ -63,15 +65,6 @@ public class Game {
     }
 
 
-
-    public BufferedWriter getOut() {
-        return out;
-    }
-
-    public BufferedReader getIn() {
-        return in;
-    }
-
     public Player getPlayer() {
         return player;
     }
@@ -88,6 +81,14 @@ public class Game {
         return view;
     }
 
+    public InputReceiver getReceiver(){
+        return receiver;
+    }
+
+    public BufferedReader getIn() {
+        return in;
+    }
+
     public static final class GameBuilder{
         private BufferedWriter out;
         private BufferedReader in;
@@ -97,6 +98,7 @@ public class Game {
         private GameState state;
         private GameView view;
         private InputReceiver receiver;
+        private boolean isGameOver;
 
         public GameBuilder buildOut(Socket socket){
             try {
@@ -118,19 +120,26 @@ public class Game {
             this.player = PlayerFactory.getPlyer(playerType, mode);
             return this;
         }
+
+
         public GameBuilder buildMyMap(){
-            this.myMap = new PlayerMap();
+            this.myMap = PlayerMap.getInstance();
             myMap.loadMap();
             return this;
         }
         public GameBuilder buildEnemyMap(){
-            this.enemyMap = new EnemyMap();
+            this.enemyMap = EnemyMap.getInstance();
             enemyMap.loadMap();
             return this;
         }
         public GameBuilder buildState(){
             this.state = new EmptyState();
           return this;
+        }
+
+        public GameBuilder buildState(GameState state){
+            this.state = state;
+            return this;
         }
 
         public GameBuilder buildView(GameView view){
@@ -143,6 +152,17 @@ public class Game {
             return this;
         }
 
+        public GameBuilder gameNotOver() {
+            this.isGameOver = false;
+            return this;
+        }
+
+        public GameBuilder gameOver() {
+            this.isGameOver = true;
+            return this;
+        }
+
+
 
         public Game buid(){
             Game game = new Game();
@@ -154,6 +174,7 @@ public class Game {
             game.state = this.state;
             game.view = this.view;
             game.receiver = this.receiver;
+            game.isGameOver = this.isGameOver;
 
             return game;
         }

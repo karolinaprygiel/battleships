@@ -6,6 +6,7 @@ import uj.pwj2020.battleships.Game;
 import java.nio.file.Path;
 
 public  interface GameState {
+
     void invokeAction();
 
 

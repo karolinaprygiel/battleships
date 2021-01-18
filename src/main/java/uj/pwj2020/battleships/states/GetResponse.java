@@ -30,7 +30,7 @@ public class GetResponse implements GameState{
             e.printStackTrace();
         }
 
-        game.getView().showMessage("received response: " + enemyMessage);
+        game.getView().showMessage("otrzymano odpowiedź: " + enemyMessage + System.getProperty("line.separator"));
 
         String command = getCommand(enemyMessage);
         String field = getField(enemyMessage);

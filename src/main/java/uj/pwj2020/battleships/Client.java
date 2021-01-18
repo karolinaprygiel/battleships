@@ -1,6 +1,6 @@
 package uj.pwj2020.battleships;
 
-import uj.pwj2020.battleships.inputReceiver.CommandLineReceiver;
+import uj.pwj2020.battleships.inputReceiver.ScannerLineReceiver;
 import uj.pwj2020.battleships.inputReceiver.InputReceiver;
 import uj.pwj2020.battleships.states.StartGame;
 import uj.pwj2020.battleships.view.CommandLineView;
@@ -21,7 +21,6 @@ public class Client {
         this.port = port;
 
     }
-
     public static Client getInstance(int port)  {
         if (instance == null) {
             instance = new Client(port);
@@ -32,12 +31,12 @@ public class Client {
 
     public void play()  {
         try {
-            GameView view = new CommandLineView();
-            InputReceiver receiver = new CommandLineReceiver(new Scanner(System.in));
+            GameView view = CommandLineView.getInstance();
+            InputReceiver receiver = ScannerLineReceiver.getInstance(new Scanner(System.in));
             InetAddress HOST = Util.getHost(view, receiver);
             var gameParameters = Util.getGameParameters(view, receiver);
             Socket s = new Socket(HOST, port);
-            view.showMessage("Connected, make move");
+            view.showMessage("Połączono, wykonaj ruch");
             Game game = Game.builder()
                     .buildIn(s)
                     .buildOut(s)
@@ -46,6 +45,8 @@ public class Client {
                     .buildEnemyMap()
                     .buildState()
                     .buildView(view)
+                    .builReceiver(receiver)
+                    .gameNotOver()
                     .buid();
             game.setState(new StartGame(game));
             game.playGame();

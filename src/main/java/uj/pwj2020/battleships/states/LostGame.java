@@ -13,10 +13,9 @@ public class LostGame implements GameState{
     @Override
     public void invokeAction() {
         game.getView().showMessage("Przegrana");
-        game.getView().showMessage("Enemy Map:");
+        game.getView().showMessage("Mapa przeciwnika:");
         game.getView().showMap(game.getEnemyMap());
-        game.getView().showMessage(System.getProperty("line.separator"));
-        game.getView().showMessage("My Map:");
+        game.getView().showMessage("Moja mapa:");
         game.getView().showMap(game.getMyMap());
         game.setGameOver(true);
 

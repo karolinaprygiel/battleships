@@ -13,11 +13,12 @@ public class MyTurn implements GameState{
 
     @Override
     public void invokeAction() {
-        game.getView().showMessage("Enemy Map:");
+
+        game.getView().showMessage("Mapa przeciwnika:");
         game.getView().showMap(game.getEnemyMap());
-        game.getView().showMessage("My Map:");
+        game.getView().showMessage("Moja mapa:");
         game.getView().showMap(game.getMyMap());
-        game.getView().showMessage("Make move:");
+        game.getView().showMessage("wykonaj ruch:");
         String field = game.getPlayer().hitField(game.getEnemyMap());
         game.send(message + ";" + field);
         game.setState(new GetResponse (game, field));
