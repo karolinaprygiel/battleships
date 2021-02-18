@@ -1,11 +1,12 @@
 # battleships
-By uruchomić grę należy:
-1. Użyć komendy `mvn clean install` w katalogu głównym
-2. Uruchomić program komendą `java -jar target/battleships-1.0-SNAPSHOT.jar` z odpowiednimi parametrami uruchomieniowymi
+Running the game
+1. Use command `mvn clean install` in project root directory.
+2. Run programm with command `java -jar target/battleships-1.0-SNAPSHOT.jar` with chosen arguments.
 
-Na przykład: `java -jar target/battleships-1.0-SNAPSHOT.jar -mode server -port 6666`
+For example: `java -jar target/battleships-1.0-SNAPSHOT.jar -mode server -port 6666`
 
-### Parametry uruchomieniowe
-Aplikacja obługuje następujące parametry:
-* `-mode [server|client]` - wskazuje tryb działania (jako serwer: przyjmuje połączenie, jako klient: nawiązuje połączenie z serwerem)
-* `-port N` - port, na którym aplikacja ma się komunikować.
+### command-line arguments
+The application supports the following parameters:
+
+* `-mode [server|client]` - as server: accepts connection, as client: initiate communication session with server.
+* `-port N` - port on which the application is to communicate.
