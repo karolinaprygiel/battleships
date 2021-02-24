@@ -1,5 +1,6 @@
 # battleships
 Final project for Java Programming & Design Patterns courses conducted on Jagiellonian University.
+
 Running the game
 1. Use command `mvn clean install` in project root directory.
 2. Run programm with command `java -jar target/battleships-1.0-SNAPSHOT.jar` with chosen arguments.
